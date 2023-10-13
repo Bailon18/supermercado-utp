@@ -1,0 +1,15 @@
+1,Electrónica
+2,Ropa
+3,Alimentos
+4,Hogar
+5,Deportes
+6,Belleza
+7,Libros
+8,Juguetes
+9,Electrodomésticos
+10,Música
+11,Muebles
+12,Calzado
+13,Salud
+14,Oficina
+15,Jardín

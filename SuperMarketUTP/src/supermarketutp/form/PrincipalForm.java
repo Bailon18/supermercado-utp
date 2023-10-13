@@ -2,12 +2,23 @@
 package supermarketutp.form;
 
 import javax.swing.JPanel;
+import supermarketutp.model.Categoria;
+import supermarketutp.model.DAO.CategoriaDAO;
 
 public class PrincipalForm extends javax.swing.JFrame {
-
+    
+    CategoriaDAO categoriadao = new CategoriaDAO();
  
     public PrincipalForm() {
         initComponents();
+        // Obtener las categorías desde el DAO
+        Categoria[] categorias = categoriadao.listarCategorias();
+
+        // Imprimir las categorías
+        for (Categoria categoria : categorias) {
+            System.out.println("ID: " + categoria.getId() + ", Nombre: " 
+                    + categoria.getNombre());
+        }
     }
 
     /**
@@ -24,6 +35,15 @@ public class PrincipalForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         panelArticulo = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jTextField2 = new javax.swing.JTextField();
+        jSpinner1 = new javax.swing.JSpinner();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -69,7 +89,29 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Articulo"), "Consultas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelArticulo.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 1000, 70));
+
+        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 170, -1));
+
+        jButton1.setText("Filtrar");
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 170, -1));
+
+        jLabel2.setText("Precio");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, 100, -1));
+
+        jLabel6.setText("Categorias");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 100, 20));
+
+        jLabel7.setText("Nombre articulo");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 100, -1));
+
+        jLabel8.setText("Proveedores");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, 100, -1));
+
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 170, -1));
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 170, -1));
+        jPanel2.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 50, 170, -1));
+
+        panelArticulo.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 1000, 80));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Articulo"), "Lista de articulos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -95,7 +137,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         labelTotalArticulo1.setText("0");
         jPanel3.add(labelTotalArticulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 450, 70, -1));
 
-        panelArticulo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 1000, 490));
+        panelArticulo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 1000, 490));
 
         panelContenido.add(panelArticulo, "card3");
 
@@ -249,15 +291,24 @@ public class PrincipalForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel labelTotalArticulo1;
     private javax.swing.JMenu menuArticulo;
     private javax.swing.JMenu menuEstadistica;

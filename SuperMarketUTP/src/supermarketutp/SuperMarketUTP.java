@@ -6,12 +6,8 @@ package supermarketutp;
 
 import supermarketutp.form.PrincipalForm;
 
-/**
- *
- * @author user
- */
-public class SuperMarketUTP {
 
+public class SuperMarketUTP {
 
     public static void main(String[] args) {
         PrincipalForm principalForm = new PrincipalForm();
