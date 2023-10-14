@@ -6,10 +6,9 @@ public class Proveedor {
     private String nombre;
     private String direccion;
 
-    public Proveedor(int id, String nombre, String direccion) {
+    public Proveedor(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.direccion = direccion;
     }
 
     public int getId() {

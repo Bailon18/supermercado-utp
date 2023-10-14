@@ -1,0 +1,50 @@
+1,Laptop HP Envy x360,3599.99,1,1
+2,Smartphone Samsung Galaxy S21,2799.99,1,1
+3,LED TV LG 4K,1899.99,1,1
+4,PS5 - Consola de Videojuegos,3999.99,5,1
+5,Camiseta Adidas Originals,119.99,2,2
+6,Zapatos de Cuero Puma,299.99,12,2
+7,Arroz Integral,5.99,3,3
+8,Atún en Lata,2.49,3,3
+9,Café Tunki,13.99,3,3
+10,Mesa de Comedor Moderna,1199.99,11,4
+11,Sofá Reclinable de Tela,899.99,11,4
+12,Brocha de Maquillaje MAC,29.99,6,6
+13,Loción Hidratante Nivea,8.99,6,6
+14,Libro "Cien Años de Soledad",39.99,7,7
+15,Juego de Ajedrez de Madera,49.99,8,8
+16,Lavadora Electrolux,1299.99,9,9
+17,Horno Microondas Panasonic,269.99,9,9
+18,Teclado Casio CTK-3500,249.99,10,10
+19,Guitarra Acústica Yamaha,329.99,10,10
+20,Silla de Oficina Ergonómica,349.99,14,14
+21,Escritorio de Madera Roble,449.99,14,14
+22,Herramientas de Jardinería,119.99,15,15
+23,Plantas Ornamentales Varias,15.99,15,15
+24,Shampoo Suave Herbal,6.99,6,6
+25,Pan Integral Artesanal,3.99,3,3
+26,Camisa de Vestir Brooks Brothers,149.99,2,2
+27,Zapatillas Deportivas Nike,199.99,5,5
+28,Refrigeradora LG Inverter,1499.99,9,9
+29,Sartén Antiadherente T-fal,29.99,4,4
+30,Tablet Samsung Galaxy Tab,399.99,1,1
+31,Agua Mineral San Mateo,1.99,3,3
+32,Celular Huawei P40,1899.99,1,1
+33,Pantalones Jeans Levi's,79.99,2,2
+34,Sandalias Verano Havaianas,19.99,12,12
+35,Tornamesa de Vinilos,249.99,10,10
+36,Lentes de Sol Ray-Ban,199.99,6,6
+37,Lavaplatos Bosch,599.99,9,9
+38,Batería de Cocina Tramontina,99.99,4,4
+39,Máquina de Café Espresso,399.99,3,3
+40,Conjunto de Dormitorio King,2499.99,11,11
+41,Silla Gamer con Luces LED,299.99,14,14
+42,Libro de Cocina Peruana,29.99,7,7
+43,Pelotas de Fútbol Nike,24.99,5,5
+44,Bicicleta de Montaña Trek,899.99,5,5
+45,Silla Plegable para Playa,19.99,11,4
+46,Colchón Ortopédico Queen,599.99,11,4
+47,Secadora de Ropa Whirlpool,499.99,9,9
+48,Juguete Educativo LEGO,39.99,8,8
+49,Reproductor de Música Sony,89.99,10,10
+50,Pizza Congelada Casera,7.99,3,3
