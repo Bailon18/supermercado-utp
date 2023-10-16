@@ -41,4 +41,15 @@ public class ProveedorDAO {
         System.arraycopy(proveedores, 0, resultado, 0, size);
         return resultado;
     }
+    
+    // Método para obtener un proveedor por su ID
+    public Proveedor obtenerProveedorPorId(int idProveedor) {
+        for (int i = 0; i < size; i++) {
+            if (proveedores[i] != null && proveedores[i].getId()== idProveedor) {
+                return proveedores[i];
+            }
+        }
+        return null;
+    }
+
 }

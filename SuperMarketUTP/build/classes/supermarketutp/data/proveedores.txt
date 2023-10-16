@@ -1,15 +1,15 @@
-1,Electro Perú S.A.C.
-2,Textiles Inca E.I.R.L.
-3,Alimentos Andinos S.A.C.
-4,Hogar Moderno Perú S.C.R.L.
-5,Deportes Peruvian  S.A.C.
-6,Belleza Natural Peruana S.A.C.
-7,Librería Cuzco Literario S.A.
-8,Juguetes Divertidos S.A.C.
-9,Electrodomésticos S.C.R.L.
-10,Discos Musicales  E.I.R.L.
-11,Muebles Pachacamac S.A.C.
-12,Calzado Andino S.C.
-13,Productos Naturales E.I.R.L.
-14,Oficina Central Perú S.A.C.
-15,Jardinería Perú Verde S.C.
+1,Electro Perú S.A.C.,Peru
+2,Textiles Inca E.I.R.L.,Chile
+3,Alimentos Andinos S.A.C.,Argentina
+4,Hogar Moderno Perú S.C.R.L.,Peru
+5,Deportes Peruvian S.A.C.,Peru
+6,Belleza Natural Peruana S.A.C.,Peru
+7,Librería Cuzco Literario S.A.,Peru
+8,Juguetes Divertidos S.A.C.,Peru
+9,Electrodomésticos S.C.R.L.,Peru
+10,Discos Musicales E.I.R.L.,Peru
+11,Muebles Pachacamac S.A.C.,Peru
+12,Calzado Andino S.C.,Peru
+13,Productos Naturales E.I.R.L.,Peru
+14,Oficina Central Perú S.A.C.,Peru
+15,Jardinería Perú Verde S.C.,Peru
