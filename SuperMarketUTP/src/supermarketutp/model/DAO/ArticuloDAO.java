@@ -12,6 +12,10 @@ public class ArticuloDAO {
 
     private Articulo[] articulos;
     private int size;
+    
+    public ArticuloDAO(){
+    
+    }
 
     public ArticuloDAO(Categoria[] categorias, Proveedor[] proveedores) {
         // Tamaño inicial del arreglo
@@ -144,6 +148,34 @@ public class ArticuloDAO {
         Articulo temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+    }
+
+    public Articulo buscarArticuloPorId(int id) {
+        try (InputStream is = getClass().getResourceAsStream("/supermarketutp/data/articulos.txt");
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is))) {
+            String linea;
+            while ((linea = bufferedReader.readLine()) != null) {
+                String[] partes = linea.split(",");
+                int articuloId = Integer.parseInt(partes[0]);
+
+                if (articuloId == id) {
+                    // Si se encuentra el artículo con el ID deseado, crea un objeto Articulo y devuélvelo
+                    String nombre = partes[1];
+                    double precio = Double.parseDouble(partes[2]);
+                    int idCategoria = Integer.parseInt(partes[3]);
+                    int idProveedor = Integer.parseInt(partes[4]);
+
+                    Categoria categoria = new Categoria();
+                    Proveedor proveedor = new Proveedor();
+
+                    return new Articulo(articuloId, nombre, precio, categoria, proveedor);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retornar null si no se encuentra el artículo
     }
 
 }

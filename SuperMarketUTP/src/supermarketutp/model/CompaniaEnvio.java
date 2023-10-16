@@ -9,6 +9,10 @@ public class CompaniaEnvio {
         this.idCompania = idCompania;
         this.nombreCompania = nombreCompania;
     }
+    
+    public CompaniaEnvio() {
+
+    }
 
     public int getIdCompania() {
         return idCompania;

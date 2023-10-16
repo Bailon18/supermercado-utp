@@ -1,6 +1,7 @@
 
 package supermarketutp.form;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import supermarketutp.model.DAO.ArticuloDAO;
 import supermarketutp.model.DAO.CategoriaDAO;
@@ -10,6 +11,7 @@ import supermarketutp.model.*;
 
 import javax.swing.table.DefaultTableModel;
 import supermarketutp.model.DAO.CompaniaEnvioDAO;
+import supermarketutp.model.DAO.DetallePedidoDAO;
 import supermarketutp.model.DAO.PedidoDAO;
 
 
@@ -20,11 +22,17 @@ public class PrincipalForm extends javax.swing.JFrame {
     CompaniaEnvioDAO companiaEnvioDAO = new CompaniaEnvioDAO();
     PedidoDAO pedidoDAO = new PedidoDAO();
     ArticuloDAO articuloDAO;
+    DetallePedidoDAO detallepedidoDAO = new DetallePedidoDAO();
+    
+    DetallePedido[] detallesPedido = new DetallePedido[100]; 
+    int cantidadDetalles = 0; 
+
  
     public PrincipalForm() {
         initComponents();
         llenarComboBox();
         llenarTablaArticulo();
+        llenarTablaPedidos();
         txtIdPedido.setText(Integer.toString(pedidoDAO.obtenerUltimoIdPedido()));
     }
     
@@ -76,6 +84,32 @@ public class PrincipalForm extends javax.swing.JFrame {
             model.addRow(new Object[] { articulo.getId(), articulo.getNombre(),
                 articulo.getPrecio(), articulo.getCategoria().getNombre(),
                 articulo.getProveedor().getNombre() });
+        }
+    }
+
+    private void llenarTablaPedidos() {
+        
+        DefaultTableModel model = (DefaultTableModel) tablaPedidos.getModel();
+
+        // Borra todas las filas existentes en la tabla
+        model.setRowCount(0);
+        
+        Pedido[] arregloDePedidos = pedidoDAO.leerPedidos();
+
+        // Recorre el arreglo de pedidos y agrega cada pedido como una fila en la tabla
+        for (Pedido pedido : arregloDePedidos) {
+            // Obtén los datos del pedido
+            int idPedido = pedido.getIdPedido();
+            String nombreProveedor = pedido.getProveedor().getNombre();
+            String fechaPedido = pedido.getFechaPedido();
+            String fechaEnvio = pedido.getFechaEnvio();
+            String fechaEntrega = pedido.getFechaEntrega();
+            String nombreCompaniaEnvio = pedido.getCompaniaEnvio().getNombreCompania();
+            double cargo = pedido.getCargo();
+
+            // Agrega una fila con los datos del pedido a la tabla
+            model.addRow(new Object[]{idPedido, nombreProveedor, fechaPedido,
+                fechaEnvio, fechaEntrega, nombreCompaniaEnvio, cargo});
         }
     }
 
@@ -143,14 +177,15 @@ public class PrincipalForm extends javax.swing.JFrame {
         Paisd = new javax.swing.JLabel();
         txtFechaEnvio = new javax.swing.JTextField();
         btnLimpiarBusquedaPedido = new javax.swing.JButton();
-        cboCompaniaEnvios = new javax.swing.JComboBox<>();
         txtPais = new javax.swing.JTextField();
         txtFechaPedido = new javax.swing.JTextField();
         cboProveedoresPedidoConsultas = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
+        txtFechaEnvio1 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablaArticulos1 = new javax.swing.JTable();
+        tablaPedidos = new javax.swing.JTable();
+        btnActualizartabla = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         btnNuevoPedido = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -310,10 +345,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         tablaDetallePedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "ARTICULO", "PRECIO POR UNIDAD", "CANTIDAD"
@@ -511,6 +543,11 @@ public class PrincipalForm extends javax.swing.JFrame {
                 btnGenerarPedidoMouseClicked(evt);
             }
         });
+        btnGenerarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPedidoActionPerformed(evt);
+            }
+        });
         panelPedidoRegistro.add(btnGenerarPedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 610, 170, 25));
 
         btnRetornarCancelar.setText("cancelar");
@@ -583,9 +620,6 @@ public class PrincipalForm extends javax.swing.JFrame {
             }
         });
 
-        cboCompaniaEnvios.setMinimumSize(null);
-        cboCompaniaEnvios.setPreferredSize(null);
-
         txtPais.setMinimumSize(null);
         txtPais.setPreferredSize(null);
 
@@ -600,7 +634,10 @@ public class PrincipalForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("Fecha de envio");
+        jLabel18.setText("Fecha de entrega");
+
+        txtFechaEnvio1.setMinimumSize(null);
+        txtFechaEnvio1.setPreferredSize(null);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -632,8 +669,8 @@ public class PrincipalForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtFechaEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cboCompaniaEnvios, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addComponent(txtFechaEnvio1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
                         .addComponent(btnFiltrarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpiarBusquedaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -656,11 +693,11 @@ public class PrincipalForm extends javax.swing.JFrame {
                         .addComponent(cboProveedoresPedidoConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtFechaEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtFechaEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFechaEnvio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnLimpiarBusquedaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFiltrarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cboCompaniaEnvios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnFiltrarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         panelPedidoPrincipal.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1000, 90));
@@ -668,7 +705,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Articulo"), "Lista de articulos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tablaArticulos1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -687,15 +724,23 @@ public class PrincipalForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(tablaArticulos1);
-        if (tablaArticulos1.getColumnModel().getColumnCount() > 0) {
-            tablaArticulos1.getColumnModel().getColumn(0).setResizable(false);
-            tablaArticulos1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            tablaArticulos1.getColumnModel().getColumn(1).setResizable(false);
-            tablaArticulos1.getColumnModel().getColumn(1).setPreferredWidth(300);
+        jScrollPane3.setViewportView(tablaPedidos);
+        if (tablaPedidos.getColumnModel().getColumnCount() > 0) {
+            tablaPedidos.getColumnModel().getColumn(0).setResizable(false);
+            tablaPedidos.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tablaPedidos.getColumnModel().getColumn(1).setResizable(false);
+            tablaPedidos.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 950, 400));
+        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 950, 370));
+
+        btnActualizartabla.setText("Actualizar tabla");
+        btnActualizartabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizartablaActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnActualizartabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(791, 30, 170, 25));
 
         panelPedidoPrincipal.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 1000, 470));
 
@@ -875,10 +920,168 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cboProveedoresPedidoItemStateChanged
 
     private void btnAgregarCarritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCarritoActionPerformed
-        DetallePedido[] detallesPedido = new DetallePedido[100];
-        
+        agregarDetalleAPedido();
     }//GEN-LAST:event_btnAgregarCarritoActionPerformed
 
+    private void btnGenerarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPedidoActionPerformed
+        // Obtén los datos del pedido
+        String idPedidoStr = txtIdPedido.getText();
+        String fechaPedido = txtFechaPedidoR.getText();
+        String fechaEnvio = txtFechaEnvioR.getText();
+        String fechaEntrega = txtFechaEntregaR.getText();
+        String nombreProveedor = cboProveedoresPedido.getSelectedItem().toString();
+        String nombreCompaniaEnvio = cboCompaniaEnvio.getSelectedItem().toString();
+
+        // Inicializa el mensaje de error
+        String mensajeError = "";
+
+        // Valida que los campos estén llenos
+        if (idPedidoStr.isEmpty()) {
+            mensajeError += " - El campo 'ID de Pedido' está vacío.\n";
+        }
+
+        if (fechaPedido.isEmpty()) {
+            mensajeError += " - El campo 'Fecha de Pedido' está vacío.\n";
+        }
+
+        if (fechaEnvio.isEmpty()) {
+            mensajeError += " - El campo 'Fecha de Envío' está vacío.\n";
+        }
+
+        if (fechaEntrega.isEmpty()) {
+            mensajeError += " - El campo 'Fecha de Entrega' está vacío.\n";
+        }
+
+        if (nombreProveedor.isEmpty() || nombreProveedor.equals("Seleccione un proveedor")) {
+            mensajeError += " - Debes seleccionar un proveedor.\n";
+        }
+
+        if (nombreCompaniaEnvio.isEmpty() || nombreCompaniaEnvio.equals("Seleccione una compañía de envío")) {
+            mensajeError += " - Debes seleccionar una compañía de envío.\n";
+        }
+
+        // Verifica si se encontraron campos vacíos
+        if (!mensajeError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Faltan llenar estos campos:\n" + mensajeError, "Campos Vacíos", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Si no se encontraron campos vacíos, continúa con la lógica para generar el pedido
+            int idPedido = Integer.parseInt(idPedidoStr);
+
+            // Crea un objeto Proveedor a partir del nombre
+            Proveedor proveedor = new Proveedor();
+            proveedor.setNombre(nombreProveedor);
+
+            // Crea un objeto CompaniaEnvio a partir del nombre
+            CompaniaEnvio companiaEnvio = new CompaniaEnvio();
+            companiaEnvio.setNombreCompania(nombreCompaniaEnvio);
+
+            // Crea un objeto Pedido con los datos del pedido
+            Pedido pedido = new Pedido(idPedido, proveedor, fechaPedido, fechaEnvio, fechaEntrega, companiaEnvio, 0.0);
+
+            // Limpia los campos después de guardar el pedido
+            txtFechaPedidoR.setText("");
+            txtFechaEnvioR.setText("");
+            txtFechaEntregaR.setText("");
+            cboProveedoresPedido.setSelectedIndex(0);
+            cboCompaniaEnvio.setSelectedIndex(0);
+
+            // Limpia la tabla
+            DefaultTableModel model = (DefaultTableModel) tablaDetallePedido.getModel();
+            model.setRowCount(0);
+
+            // Verifica si hay detalles de pedido para guardar
+            if (cantidadDetalles > 0) {
+                pedidoDAO.guardarPedido(pedido);
+                detallepedidoDAO.guardarDetallesPedido(detallesPedido);
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay detalles de pedido para guardar.", "Sin Detalles de Pedido", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            mostrarPanel(panelPedidoPrincipal);
+            txtIdPedido.setText(Integer.toString(pedidoDAO.obtenerUltimoIdPedido()));
+            llenarTablaPedidos();
+        }
+
+        
+    }//GEN-LAST:event_btnGenerarPedidoActionPerformed
+
+    private void btnActualizartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizartablaActionPerformed
+        llenarTablaPedidos();
+    }//GEN-LAST:event_btnActualizartablaActionPerformed
+
+    private void agregarDetalleAPedido() {
+        // Inicializa el mensaje de error
+        String mensajeError = "";
+        
+        // Obtén los valores de los campos de entrada
+        String idPedidoStr = txtIdPedido.getText();
+        String nombreArticulo = cboArticulosPedido.getSelectedItem().toString();
+        String precioUnidadStr = txtPrecioArticulo.getText();
+        String cantidadStr = txtCantidadArticulo.getText();
+
+        // Valida que los campos estén llenos
+        if (idPedidoStr.isEmpty()) {
+            mensajeError += " - El campo 'ID de Pedido' está vacío.\n";
+        }
+
+        if (nombreArticulo.isEmpty()) {
+            mensajeError += " - Debes seleccionar un artículo.\n";
+        }
+
+        if (precioUnidadStr.isEmpty()) {
+            mensajeError += " - El campo 'Precio por Unidad' está vacío.\n";
+        }
+
+        if (cantidadStr.isEmpty()) {
+            mensajeError += " - El campo 'Cantidad' está vacío.\n";
+        }
+
+        // Verifica si se encontraron campos vacíos
+        if (!mensajeError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Faltan llenar estos campos:\n" + mensajeError, "Campos Vacíos", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Si no se encontraron campos vacíos, realiza la lógica para agregar el detalle al pedido
+            int idPedido = Integer.parseInt(idPedidoStr);
+            double precioUnidad = Double.parseDouble(precioUnidadStr);
+            int cantidad = Integer.parseInt(cantidadStr);
+
+            // Resto del código para agregar el detalle al pedido
+            boolean encontrado = false;
+            for (int i = 0; i < cantidadDetalles; i++) {
+                if (detallesPedido[i] != null && detallesPedido[i].getProducto().getNombre().equals(nombreArticulo)) {
+                    // Si el artículo ya existe, suma la cantidad y el precio al detalle existente
+                    detallesPedido[i].setCantidad(detallesPedido[i].getCantidad() + cantidad);
+                    detallesPedido[i].setPrecioUnidad(detallesPedido[i].getPrecioUnidad() + precioUnidad);
+                    encontrado = true;
+                    break;
+                }
+            }
+
+            if (!encontrado) {
+                // Si no se encontró un detalle existente, crea uno nuevo
+                Articulo ar = new Articulo();
+                ar.setNombre(nombreArticulo);
+                DetallePedido detalle = new DetallePedido(idPedido, ar, precioUnidad, cantidad);
+
+                // Agrega el detalle al arreglo
+                detallesPedido[cantidadDetalles] = detalle;
+
+                // Incrementa el contador
+                cantidadDetalles++;
+            }
+
+            // Actualiza o agrega el detalle a la tabla
+            DefaultTableModel model = (DefaultTableModel) tablaDetallePedido.getModel();
+            model.setRowCount(0); // Limpiamos la tabla antes de volver a agregar los detalles
+            for (int i = 0; i < cantidadDetalles; i++) {
+                if (detallesPedido[i] != null) {
+                    model.addRow(new Object[]{detallesPedido[i].getProducto().getNombre(), detallesPedido[i].getPrecioUnidad(), detallesPedido[i].getCantidad()});
+                }
+            }
+        }
+    }
+
+    
     private void mostrarPanel(JPanel panelMostrado) {
         panelArticulo.setVisible(panelMostrado == panelArticulo);
         panelBienvenido.setVisible(panelMostrado == panelBienvenido);
@@ -921,6 +1124,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Paisd;
+    private javax.swing.JButton btnActualizartabla;
     private javax.swing.JButton btnAgregarCarrito;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnFiltrarPedido;
@@ -933,7 +1137,6 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboArticulosPedido;
     private javax.swing.JComboBox<String> cboCategoria;
     private javax.swing.JComboBox<String> cboCompaniaEnvio;
-    private javax.swing.JComboBox<String> cboCompaniaEnvios;
     private javax.swing.JComboBox<String> cboProveedores;
     private javax.swing.JComboBox<String> cboProveedoresPedido;
     private javax.swing.JComboBox<String> cboProveedoresPedidoConsultas;
@@ -982,11 +1185,12 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelPedidoRegistro;
     private javax.swing.JTextField spPrecio;
     private javax.swing.JTable tablaArticulos;
-    private javax.swing.JTable tablaArticulos1;
     private javax.swing.JTable tablaDetallePedido;
+    private javax.swing.JTable tablaPedidos;
     private javax.swing.JTextField txtCantidadArticulo;
     private javax.swing.JTextField txtFechaEntregaR;
     private javax.swing.JTextField txtFechaEnvio;
+    private javax.swing.JTextField txtFechaEnvio1;
     private javax.swing.JTextField txtFechaEnvioR;
     private javax.swing.JTextField txtFechaPedido;
     private javax.swing.JTextField txtFechaPedidoR;

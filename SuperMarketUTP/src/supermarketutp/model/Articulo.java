@@ -8,6 +8,11 @@ public class Articulo {
     private Categoria categoria;
     private Proveedor proveedor;
 
+    public Articulo() {
+    }
+    
+    
+
     public Articulo(int id, String nombre, double precio, Categoria categoria,
             Proveedor proveedor) {
         this.id = id;

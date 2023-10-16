@@ -1,7 +1,8 @@
 package supermarketutp.model.DAO;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,8 +15,13 @@ public class PedidoDAO {
     private int ultimoIdPedido; // Variable para almacenar el último ID de pedido
     ProveedorDAO proveedorDAO = new ProveedorDAO();
     CompaniaEnvioDAO companiaDAO = new CompaniaEnvioDAO();
-
+    
+    
     public PedidoDAO() {
+        this.leerPedidos();
+    }
+    
+    public Pedido[] leerPedidos() {
         pedidos = new Pedido[100];
         size = 0;
         ultimoIdPedido = 0; // Valor predeterminado
@@ -31,35 +37,55 @@ public class PedidoDAO {
                 }
 
                 String[] partes = linea.split(",");
-                int idPedido = Integer.parseInt(partes[0]);
-                int idProveedor = Integer.parseInt(partes[1]);
+                int idPedido = Integer.parseInt(partes[0]); //
+                String nombreproveedor = partes[1]; //
                 String fechaPedido = partes[2];
                 String fechaEnvio = partes[3];
                 String fechaEntrega = partes[4];
-                int idCompaniaEnvio = Integer.parseInt(partes[5]);
+                String nombreCompania = partes[5];
                 double cargo = Double.parseDouble(partes[6]);
 
                 if (idPedido > ultimoIdPedido) {
-                    ultimoIdPedido = idPedido; 
+                    ultimoIdPedido = idPedido;
                 }
 
-                Proveedor proveedor = proveedorDAO.obtenerProveedorPorId(idProveedor);
-                CompaniaEnvio companiaenvio = companiaDAO.obtenerCompaniaEnvioPorId(idCompaniaEnvio);
+                Proveedor proveedor = proveedorDAO.buscarProveedorPorNombre(nombreproveedor);
+                CompaniaEnvio companiaenvio = companiaDAO.buscarCompaniaPorNombre(nombreCompania);
 
-                pedidos[size] = new Pedido(idPedido, proveedor, fechaPedido,
-                        fechaEnvio, fechaEntrega, companiaenvio, cargo);
+                pedidos[size] = new Pedido(idPedido, proveedor, fechaPedido, fechaEnvio, fechaEntrega, companiaenvio, cargo);
                 size++;
             }
+
+            Pedido[] resultado = new Pedido[size];
+            System.arraycopy(pedidos, 0, resultado, 0, size);
+            return resultado;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return null;
     }
+
+    
 
     // Método para obtener el último ID de pedido
     public int obtenerUltimoIdPedido() {
         return ultimoIdPedido + 1;
     }
+    
+    public void guardarPedido(Pedido pedido) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/supermarketutp/data/pedidos.txt", true))) {
+            // Crear una cadena con los datos del pedido
+            String pedidoString = pedido.getIdPedido() + "," + pedido.getProveedor().getNombre() + ","
+                    + pedido.getFechaPedido() + "," + pedido.getFechaEnvio() + ","
+                    + pedido.getFechaEntrega() + "," + pedido.getCompaniaEnvio().getNombreCompania() + ","
+                    + pedido.getCargo() + System.lineSeparator();
 
+            // Escribir los datos del pedido al archivo
+            writer.write(pedidoString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    
 }

@@ -53,4 +53,13 @@ public class CompaniaEnvioDAO {
         }
         return null;
     }
+    
+    public CompaniaEnvio buscarCompaniaPorNombre(String nombreCompania) {
+        for (int i = 0; i < size; i++) {
+            if (companiasEnvio[i] != null && companiasEnvio[i].getNombreCompania().equalsIgnoreCase(nombreCompania)) {
+                return companiasEnvio[i];
+            }
+        }
+        return null;
+    }
 }

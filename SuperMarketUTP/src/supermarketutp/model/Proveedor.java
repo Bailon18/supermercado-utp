@@ -10,6 +10,9 @@ public class Proveedor {
         this.id = id;
         this.nombre = nombre;
     }
+    
+    public Proveedor() {
+    }
 
     public int getId() {
         return id;

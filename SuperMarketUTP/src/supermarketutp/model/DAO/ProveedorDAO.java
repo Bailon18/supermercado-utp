@@ -52,4 +52,13 @@ public class ProveedorDAO {
         return null;
     }
 
+    public Proveedor buscarProveedorPorNombre(String nombreProveedor) {
+        for (int i = 0; i < size; i++) {
+            if (proveedores[i] != null && proveedores[i].getNombre().equalsIgnoreCase(nombreProveedor)) {
+                return proveedores[i];
+            }
+        }
+        return null;
+    }
+
 }
